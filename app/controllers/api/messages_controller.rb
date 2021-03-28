@@ -3,15 +3,17 @@ class Api::MessagesController < ApplicationController
 
   def index
     messages = Message.all
-    render json: { messages: messages }
+    render json: messages, root: 'messages', adapter: :json, each_serializer: MessageSerializer
   end
 
   def create
     if params[:content]
-      current_user.messages.create(content: params[:content])
-      render json: {
-        message: 'Successful'
-      }, status: 201
+      new_message = current_user.messages.create(content: params[:content])
+      serialized_message = ActiveModelSerializers::Adapter::Json.new(
+        MessageSerializer.new(new_message)
+      ).serializable_hash
+      ActionCable.server.broadcast 'messages_channel', serialized_message
+      head :ok
     else
       render json: {
         message: 'Unsuccessful'

@@ -1,6 +1,6 @@
 RSpec.describe 'GET /api/messages', type: :request do
-  let(:user) {create(:user)}
-  let!(:message) {3.times {create(:message, user: user)}}
+  let(:user) { create(:user) }
+  let!(:message) { 3.times { create(:message, user: user) } }
 
   describe 'successfully' do
     before do
@@ -12,6 +12,7 @@ RSpec.describe 'GET /api/messages', type: :request do
     end
 
     it 'responds with all messages' do
+      binding.pry
       expect(response_json['messages'].count).to eq 3
     end
   end

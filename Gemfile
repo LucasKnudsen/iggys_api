@@ -8,6 +8,8 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 6.1.3'
+gem 'redis'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'factory_bot_rails'
